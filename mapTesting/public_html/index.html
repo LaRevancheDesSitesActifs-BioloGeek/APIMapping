@@ -17,20 +17,34 @@ and open the template in the editor.
 
 var map;
 function initMap() {
+    
   var myLatLng = {lat: 46.167652, lng:-1.1172972 };
-
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
+    zoom: 6,
     center: myLatLng
   });
-
+  var geocoder = new google.maps.Geocoder();
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
     title: 'Hello World!'
   });
 }
-
+function geocodeAddress(geocoder, resultsMap) {
+    printf("Hey");
+  var address = 'Paris, France';
+  geocoder.geocode({'address': address}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      resultsMap.setCenter(results[0].geometry.location);
+      var marker2 = new google.maps.Marker({
+        map: resultsMap,
+        position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
     </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_1SeD8bwOsB126JQAqU8gjEDoXx1G4uA&callback=initMap">
